@@ -1,3 +1,10 @@
 
 submission_options:
   num_posts_to_cache: 5
+
+db_options:
+  db_name: repost_cache
+  submission_collection_name: link_submissions
+  selfpost_comments_collection_name: askreddit_comments
+  id_property: id
+  date_property: created_at
