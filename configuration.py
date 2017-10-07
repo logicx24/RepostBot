@@ -5,7 +5,7 @@ import imgurpython
 from reddit_store import RedditStore
 from praw_interface import PrawInterface
 
-class getConfiguredObjects(object):
+class ConfiguredObjectsFactory(object):
 
     def __init__(self):
         self.authFilename = "auth_params.yaml"
@@ -44,3 +44,19 @@ class getConfiguredObjects(object):
             authed_reddit_instance,
             posts_to_cache
         )
+
+    def get_monitored_subreddits(self):
+        return [
+            "nsfw",
+            "pics",
+            "funny",
+            "unexpected",
+            "art",
+            "aww",
+            "gaming",
+            "todayilearned",
+            "food",
+            "mildlyinteresting",
+            "earthporn",
+            "oldschoolcool"
+        ]
