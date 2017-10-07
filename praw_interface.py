@@ -1,28 +1,28 @@
-from main import get_authed_reddit_instance
 import praw
 import datetime
 
 
-class PrawWrapper(object):
+class PrawInterface(object):
 
-    def __init__(self, authed_reddit_object):
+    def __init__(self, authed_reddit_object, posts_to_cache):
         self.authed_reddit_object = authed_reddit_object
+        self.posts_to_cache = posts_to_cache
 
     def get_subreddit(self, subreddit_name):
         return self.authed_reddit_object.subreddit(subreddit_name)
 
-    def get_post_metadata_with_filter(self, subreddit_name, posts_to_cache, filter_function):
+    def get_post_metadata_with_filter(self, subreddit_name, filter_function):
         found_posts = []
         subreddit = self.get_subreddit(subreddit_name)
-        for submission in subreddit.hot(limit=posts_to_cache):
+        for submission in subreddit.hot(limit=self.posts_to_cache):
             if filter_function(submission):
                 found_posts.append(submission)
         return found_posts
 
-    def get_top_link_submissions(self, subreddit_name, posts_to_cache):
+    def get_top_link_submissions(self, subreddit_name):
         found_posts = []
 
-        for submission in self. get_post_metadata_with_filter(subreddit_name, posts_to_cache, lambda submission: not submission.is_self):
+        for submission in self. get_post_metadata_with_filter(subreddit_name, lambda submission: not submission.is_self):
             found_posts.append({
                 "link": submission.url,
                 "subreddit": submission.subreddit.display_name,
@@ -35,17 +35,16 @@ class PrawWrapper(object):
 
         return found_posts
 
-    def get_top_askreddit_posts(self, posts_to_cache):
+    def get_top_askreddit_posts(self):
         return self.get_post_metadata_with_filter(
                 "askreddit",
-                posts_to_cache,
                 lambda submission: submission.is_self
             )
 
     def get_top_comments(self, submission):
         top_comments = []
 
-        submission.comments.replace_more(limit=15)
+        submission.comments.replace_more(limit=self.posts_to_cache)
         for top_level_commment in submission.comments:
             if isinstance(top_level_comment, praw.models.MoreComments):
                 continue
@@ -57,3 +56,15 @@ class PrawWrapper(object):
                 "submission_id": submission.id
             })
         return top_comments
+
+    def make_submission(self, submission_object):
+        subreddit = self.get_subreddit(submission_object['subreddit'])
+        subreddit.submit(
+            title=submission_object['title'],
+            url=submission_object['url'],
+            resubmit=True,
+            send_replies=True
+        )
+
+
+
