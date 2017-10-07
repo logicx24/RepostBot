@@ -25,10 +25,10 @@ class PrawWrapper(object):
         for submission in self. get_post_metadata_with_filter(subreddit_name, posts_to_cache, lambda submission: not submission.is_self):
             found_posts.append({
                 "link": submission.url,
-                "subreddit": subreddit.display_name,
+                "subreddit": submission.subreddit.display_name,
                 "title": submission.title,
                 "score": submission.score,
-                "found_at": datetime.datetime.now(),
+                "created_at": datetime.datetime.utcfromtimestamp(submission.created),
                 "unique_key": submission.permalink,
                 "id": submission.id
             })
@@ -57,4 +57,3 @@ class PrawWrapper(object):
                 "submission_id": submission.id
             })
         return top_comments
-
