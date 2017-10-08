@@ -9,7 +9,7 @@ class ConfiguredObjectsFactory(object):
 
     def __init__(self):
         self.authFilename = "auth_params.yaml"
-        self.configFilename = "config_params.yaml"
+        self.configFilename = "config.yaml"
 
     def get_authed_reddit_instance(self):
         with open(self.authFilename) as authFile:
@@ -38,7 +38,7 @@ class ConfiguredObjectsFactory(object):
 
     def get_praw_interface(self):
         authed_reddit_instance = self.get_authed_reddit_instance()
-        posts_to_cache = self.get_config_params['submission_options']['num_posts_to_cache']
+        posts_to_cache = self.get_config_params()['submission_options']['num_posts_to_cache']
 
         return PrawInterface(
             authed_reddit_instance,

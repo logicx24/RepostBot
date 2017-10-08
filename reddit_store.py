@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import datetime
 
 class RedditStore(object):
 
@@ -18,15 +19,26 @@ class RedditStore(object):
 		return self.mongo_client[self.db_name][self.collection_name]
 
 	def save_submission(self, submission_dict):
-		self.get_collection().update_one(
+		submission_dict["inserted_at"] = datetime.now()
+		self.get_collection().replace_one(
 			{self.id_property: submission_dict[self.id_property]},
 			submission_dict,
-			True
+			upsert=True
 		)
 	
-	def get_submissions_after_date(self, date):
-		self.get_collection().find(
+	def get_unposted_submissions_after_date(self, date):
+		return self.get_collection().find(
 			filter={self.date_property: {"$gte": date}, self.posted_property: False}
+		)
+
+	def get_submissions_after_date(self, date):
+		return self.get_collection().find(
+			filter={self.date_property: {"$gte": date}}
+		)
+
+	def get_subreddit_submissions_after_date(self, date, subreddit):
+		return self.get_collection().find(
+			filter={self.date_property: {"$gte": date}, "subreddit": subreddit}
 		)
 
 	def mark_posted(self, submission_dict):
