@@ -26,19 +26,19 @@ class RedditStore(object):
 			upsert=True
 		)
 	
-	def get_unposted_submissions_after_date(self, date):
+	def get_unposted_submissions_before_date(self, date):
 		return self.get_collection().find(
-			filter={self.date_property: {"$gte": date}, self.posted_property: False}
+			filter={self.date_property: {"$lte": date}, self.posted_property: False}
 		)
 
-	def get_submissions_after_date(self, date):
+	def get_submissions_before_date(self, date):
 		return self.get_collection().find(
-			filter={self.date_property: {"$gte": date}}
+			filter={self.date_property: {"$lte": date}}
 		)
 
-	def get_subreddit_submissions_after_date(self, date, subreddit):
+	def get_subreddit_submissions_before_date(self, date, subreddit):
 		return self.get_collection().find(
-			filter={self.date_property: {"$gte": date}, "subreddit": subreddit}
+			filter={self.date_property: {"$lte": date}, "subreddit": subreddit}
 		)
 
 	def mark_posted(self, submission_dict):

@@ -22,7 +22,7 @@ class PrawInterface(object):
     def get_top_link_submissions(self, subreddit_name):
         found_posts = []
 
-        for submission in self. get_post_metadata_with_filter(subreddit_name, lambda submission: not submission.is_self):
+        for submission in self.get_post_metadata_with_filter(subreddit_name, lambda submission: not submission.is_self and not submission.stickied):
             found_posts.append({
                 "link": submission.url,
                 "subreddit": submission.subreddit.display_name,
@@ -61,7 +61,7 @@ class PrawInterface(object):
         subreddit = self.get_subreddit(submission_object['subreddit'])
         subreddit.submit(
             title=submission_object['title'],
-            url=submission_object['url'],
+            url=submission_object['link'],
             resubmit=True,
             send_replies=True
         )

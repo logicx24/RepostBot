@@ -7,5 +7,5 @@ db_options:
   submission_collection_name: link_submissions
   selfpost_comments_collection_name: askreddit_comments
   id_property: id
-  date_property: created_at,
+  date_property: created_at
   posted_property: posted
