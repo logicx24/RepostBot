@@ -14,6 +14,7 @@ class Main(object):
         self.monitored_subs = self.configured_obj_factory.get_monitored_subreddits()
 
     def cache_subreddit_posts(self):
+        print("Caching current hot posts.")
         for subreddit in self.monitored_subs:
             top_link_subs = self.praw_interface.get_top_link_submissions(subreddit)
             for submission in top_link_subs:
@@ -27,6 +28,7 @@ class Main(object):
 
 
     def make_post(self):
+        print("Making post if hot posts exist.")
         possible_posts = []
         for subreddit in self.monitored_subs:
             possible_posts.extend(self.get_subreddit_posts(subreddit))
@@ -38,11 +40,6 @@ class Main(object):
 
 
 if __name__ == "__main__":
-    SECONDS_PER_MINUTE = 60
-    MINUTES_PER_HOUR = 60
-
-    t1 = Timer(30 * SECONDS_PER_MINUTE, Main().cache_subreddit_posts)
-    t2 = Timer(12 * SECONDS_PER_MINUTE * MINUTES_PER_HOUR, Main().make_all_posts)
-
-    t1.start()
-    t2.start()
+    main = Main()
+    main.cache_subreddit_posts()
+    main.make_post()

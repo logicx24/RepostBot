@@ -1,0 +1,12 @@
+certifi==2018.1.18
+chardet==3.0.4
+configparser==3.5.0
+idna==2.6
+imgurpython==1.1.7
+praw==5.4.0
+prawcore==0.14.0
+pymongo==3.5.1
+PyYAML==3.12
+requests==2.18.4
+update-checker==0.16
+urllib3==1.22
