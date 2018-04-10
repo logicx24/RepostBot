@@ -12,23 +12,29 @@ class ConfiguredObjectsFactory(object):
         self.configFilename = "config.yaml"
 
     def get_authed_reddit_instance(self):
-        with open(self.authFilename) as authFile:
-            authDict = yaml.safe_load(authFile)['reddit_auth_secrets']
-            return praw.Reddit(
-                client_id=authDict['client_id'],
-                client_secret=authDict['client_secret'],
-                user_agent="TOTALLY REAL REDDIT USER - EXECUTING HUMAN.EXE",
-                username=authDict['username'],
-                password=authDict['password']
-            )
+
+        authDict = self.get_auth_params()['reddit_auth_secrets']
+        return praw.Reddit(
+            client_id=authDict['client_id'],
+            client_secret=authDict['client_secret'],
+            user_agent="TOTALLY REAL REDDIT USER - EXECUTING HUMAN.EXE",
+            username=authDict['username'],
+            password=authDict['password']
+        )
 
     def get_config_params(self):
         with open(self.configFilename) as configFile:
             return yaml.safe_load(configFile)
 
+    def get_auth_params(self):
+        with open(self.authFilename) as authFile:
+            return yaml.safe_load(authFile)
+
     def get_submission_storage_instance(self):
         dbDict = self.get_config_params()['db_options']
+        dbAuthDict = self.get_auth_params()['mongodb_host_auth']
         return RedditStore(
+            dbAuthDict['uri'],
             dbDict['db_name'],
             dbDict['submission_collection_name'],
             dbDict['id_property'],

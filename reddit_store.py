@@ -3,8 +3,8 @@ from datetime import datetime
 
 class RedditStore(object):
 
-	def __init__(self, db_name, collection_name, id_prop, date_prop, posted_prop):
-		self.mongo_client = self.get_client()
+	def __init__(self, host_uri, db_name, collection_name, id_prop, date_prop, posted_prop):
+		self.mongo_client = self.get_client(host_uri)
 		self.db_name = db_name
 		self.collection_name = collection_name
 
@@ -12,8 +12,8 @@ class RedditStore(object):
 		self.date_property = date_prop
 		self.posted_property = posted_prop
 
-	def get_client(self):
-		return MongoClient()
+	def get_client(self, uri):
+		return MongoClient(uri)
 
 	def get_collection(self):
 		return self.mongo_client[self.db_name][self.collection_name]
