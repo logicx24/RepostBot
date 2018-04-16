@@ -59,9 +59,23 @@ class ConfiguredObjectsFactory(object):
             "funny",
             "unexpected",
             "bustypetite",
+            "beamazed",
+            "prequelmemes",
+            "sequelmemes",
+            "meirl",
+            "me_irl",
             "aww",
+            "arianagrande",
+            "celebnsfw",
+            "asstastic",
+            "realgirls",
+            "nsfw_gifs",
             "ass",
             "theratio",
+            "gaming",
+            "todayilearned",
+            "pics",
+            "thisismylifenow",
             "gentlemanboners",
             "holdthemoan",
             "anal",
@@ -87,5 +101,23 @@ class ConfiguredObjectsFactory(object):
             "nekoirl",
             "shelikesitrough",
             "theangiecompetition",
-            "watchitfortheplot"
+            "watchitfortheplot",
+            "boobbounce",
+            "complexionexcellence",
+            "cutemodeslutmode",
+            "fuckingmachines",
+            "nsfw_korea",
+            "nsfw_japan",
+            "realitydicks",
+            "slutsofsnapchat",
+            "squirting"
+        ]
+
+    def get_banned_subreddits(self):
+        return [
+            "aww",
+            "holdthemoan",
+            "cat_girls",
+            "pics",
+            "ass"
         ]

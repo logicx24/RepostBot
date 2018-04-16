@@ -1,6 +1,6 @@
 
 submission_options:
-  num_posts_to_cache: 10
+  num_posts_to_cache: 15
 
 db_options:
   db_name: repost_cache

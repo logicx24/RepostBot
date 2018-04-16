@@ -12,6 +12,7 @@ class Main(object):
         self.praw_interface = self.configured_obj_factory.get_praw_interface()
         self.reddit_store = self.configured_obj_factory.get_submission_storage_instance()
         self.monitored_subs = self.configured_obj_factory.get_monitored_subreddits()
+        self.banned_subs = self.configured_obj_factory.get_banned_subreddits()
 
     def cache_subreddit_posts(self):
         print("Caching current hot posts.")
@@ -22,7 +23,7 @@ class Main(object):
 
     def get_subreddit_posts(self, subreddit):
         return list(self.reddit_store.get_subreddit_submissions_before_date(
-            datetime.combine(date.today() - timedelta(days=5), datetime.min.time()),
+            datetime.combine(date.today() - timedelta(days=2), datetime.min.time()),
             subreddit
         ))
 
@@ -32,6 +33,8 @@ class Main(object):
         possible_posts = []
         for subreddit in self.monitored_subs:
             possible_posts.extend(self.get_subreddit_posts(subreddit))
+
+        possible_posts = [post for post in possible_posts if post['subreddit'] not in self.banned_subs]
 
         if len(possible_posts) > 0:
             self.praw_interface.make_submission(
