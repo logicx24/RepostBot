@@ -18,8 +18,8 @@ class RedditStore(object):
 	def get_collection(self):
 		return self.mongo_client[self.db_name][self.collection_name]
 
-	def save_submission(self, submission_dict):
-		submission_dict["inserted_at"] = datetime.now()
+	def save_submission(self, submission_dict, date=datetime.now()):
+		submission_dict[self.date_property] = date
 		self.get_collection().replace_one(
 			{self.id_property: submission_dict[self.id_property]},
 			submission_dict,
@@ -43,3 +43,5 @@ class RedditStore(object):
 
 	def mark_posted(self, submission_dict):
 		submission_dict[self.posted_property] = True
+		submission_dict[self.date_property] = datetime.now()
+		self.save_submission(submission_dict)

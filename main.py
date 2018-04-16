@@ -19,7 +19,7 @@ class Main(object):
         for subreddit in self.monitored_subs:
             top_link_subs = self.praw_interface.get_top_link_submissions(subreddit)
             for submission in top_link_subs:
-                self.reddit_store.save_submission(submission)
+                self.reddit_store.save_submission(submission, date=datetime.now())
 
     def get_subreddit_posts(self, subreddit):
         return list(self.reddit_store.get_subreddit_submissions_before_date(
@@ -37,9 +37,11 @@ class Main(object):
         possible_posts = [post for post in possible_posts if post['subreddit'] not in self.banned_subs]
 
         if len(possible_posts) > 0:
+            chosen_submission = random.choice(possible_posts)
             self.praw_interface.make_submission(
-                random.choice(possible_posts)
+                chosen_submission
             )
+            self.reddit_store.mark_posted(chosen_submission)
 
 
 if __name__ == "__main__":
