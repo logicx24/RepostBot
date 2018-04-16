@@ -1,9 +1,10 @@
 import yaml
 import praw
-import imgurpython
+import pyimgur
 
 from reddit_store import RedditStore
 from praw_interface import PrawInterface
+from imgur_interface import ImgurInterface
 
 class ConfiguredObjectsFactory(object):
 
@@ -49,6 +50,15 @@ class ConfiguredObjectsFactory(object):
         return PrawInterface(
             authed_reddit_instance,
             posts_to_cache
+        )
+
+    def get_authed_imgur_instance(self):
+        authDict = self.get_auth_params()['imgur_auth_secrets']
+        return pyimgur.Imgur(authDict['client_id'], authDict['client_secret'])
+
+    def get_imgur_interface(self):
+        return ImgurInterface(
+            self.get_authed_imgur_instance()
         )
 
     def get_monitored_subreddits(self):
@@ -120,4 +130,9 @@ class ConfiguredObjectsFactory(object):
             "cat_girls",
             "pics",
             "ass"
+        ]
+
+    def get_subs_to_rehost(self):
+        return [
+            "gentlemanboners"
         ]
