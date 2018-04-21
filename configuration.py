@@ -156,7 +156,9 @@ class ConfiguredObjectsFactory(object):
             "bimbofetish",
             "funny",
             "todayilearned",
-            "collared"
+            "collared",
+            "asstastic",
+            "nsfw_gifs"
         ]
 
     def get_subs_to_rehost(self):
