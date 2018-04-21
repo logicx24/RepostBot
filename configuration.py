@@ -94,7 +94,6 @@ class ConfiguredObjectsFactory(object):
             "adorableporn",
             "ifyouhadtopickone",
             "straightgirlsplaying",
-            "tgirls",
             "justhotwomen",
             "girlswithglasses",
             "transporn",
@@ -107,8 +106,6 @@ class ConfiguredObjectsFactory(object):
             "snapchatgw",
             "collared",
             "strugglefucking",
-            "legs",
-            "nekoirl",
             "shelikesitrough",
             "theangiecompetition",
             "watchitfortheplot",
@@ -120,7 +117,28 @@ class ConfiguredObjectsFactory(object):
             "nsfw_japan",
             "realitydicks",
             "slutsofsnapchat",
-            "squirting"
+            "squirting",
+            "cozyplaces",
+            "mildlyinteresting",
+            "accidentalrenaissance",
+            "insanepeoplefacebook",
+            "iamverysmart",
+            "oldpeoplefacebook",
+            "kenm",
+            "ihavesex",
+            "holdmybeer",
+            "holdmycosmo",
+            "yesyesyesno",
+            "watchpeopledie",
+            "facepalm",
+            "catsstandingup",
+            "cringepics",
+            "instant_regret",
+            "whatcouldgowrong",
+            "wellthatsucks",
+            "fakehistoryporn",
+            "interestingasfuck",
+            "nevertellmetheodds"
         ]
 
     def get_banned_subreddits(self):
@@ -129,7 +147,16 @@ class ConfiguredObjectsFactory(object):
             "holdthemoan",
             "cat_girls",
             "pics",
-            "ass"
+            "ass",
+            "gentlemanboners",
+            "nsfw",
+            "thisismylifenow",
+            "girlskissing",
+            "transporn",
+            "bimbofetish",
+            "funny",
+            "todayilearned",
+            "collared"
         ]
 
     def get_subs_to_rehost(self):

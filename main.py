@@ -48,7 +48,8 @@ class Main(object):
                     chosen_submission['link'] = rehosted_link
 
             self.praw_interface.make_submission(
-                chosen_submission
+                chosen_submission,
+                chosen_submission['subreddit']
             )
 
             self.reddit_store.mark_posted(chosen_submission)

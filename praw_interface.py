@@ -57,8 +57,8 @@ class PrawInterface(object):
             })
         return top_comments
 
-    def make_submission(self, submission_object):
-        subreddit = self.get_subreddit(submission_object['subreddit'])
+    def make_submission(self, submission_object, subreddit):
+        subreddit = self.get_subreddit(subreddit)
         subreddit.submit(
             title=submission_object['title'],
             url=submission_object['link'],
