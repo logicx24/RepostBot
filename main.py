@@ -39,7 +39,7 @@ class Main(object):
         print("Making post if hot posts exist.")
         possible_posts = self.get_all_posts()
 
-        posting_predicate = lambda post: post['subreddit'] not in self.banned_subs and post.get("username", None) != self.configured_obj_factory.get_main_reddit_username()
+        posting_predicate = lambda post: post['subreddit'] not in self.banned_subs and post.get("username", None) != self.configured_obj_factory.get_main_reddit_username() and post["score"] >= self.configured_obj_factory.get_qualifying_score_for_posting()
         possible_posts = [post for post in possible_posts if posting_predicate(post)]
 
         if len(possible_posts) > 0:

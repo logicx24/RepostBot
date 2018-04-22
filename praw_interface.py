@@ -4,9 +4,10 @@ import datetime
 
 class PrawInterface(object):
 
-    def __init__(self, authed_reddit_object, posts_to_cache):
+    def __init__(self, authed_reddit_object, posts_to_cache, qualifying_score_for_posting):
         self.authed_reddit_object = authed_reddit_object
         self.posts_to_cache = posts_to_cache
+        self.qualifying_score_for_posting = qualifying_score_for_posting
 
     def get_subreddit(self, subreddit_name):
         return self.authed_reddit_object.subreddit(subreddit_name)
@@ -38,7 +39,7 @@ class PrawInterface(object):
 
             found_posts.append(submission_dict)
 
-        return found_posts
+        return [found_post for found_post in found_posts if found_post["score"] >= self.qualifying_score_for_posting]
 
     def get_top_askreddit_posts(self):
         return self.get_post_metadata_with_filter(

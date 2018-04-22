@@ -1,6 +1,7 @@
 
 submission_options:
   num_posts_to_cache: 15
+  qualifying_score_for_posting: 40
 
 db_options:
   db_name: repost_cache

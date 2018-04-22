@@ -56,8 +56,12 @@ class ConfiguredObjectsFactory(object):
 
         return PrawInterface(
             authed_reddit_instance,
-            posts_to_cache
+            posts_to_cache,
+            self.get_qualifying_score_for_posting()
         )
+
+    def get_qualifying_score_for_posting(self):
+        return self.get_config_params()['submission_options']['qualifying_score_for_posting']
 
     def get_authed_imgur_instance(self):
         authDict = self.get_auth_params()['imgur_auth_secrets']
