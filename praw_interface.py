@@ -25,7 +25,7 @@ class PrawInterface(object):
         for submission in self.get_post_metadata_with_filter(subreddit_name, lambda submission: not submission.is_self and not submission.stickied):
             submission_dict = {
                 "link": submission.url,
-                "subreddit": submission.subreddit.display_name,
+                "subreddit": submission.subreddit.display_name.lower(),
                 "title": submission.title,
                 "score": submission.score,
                 "created_at": datetime.datetime.utcfromtimestamp(submission.created),

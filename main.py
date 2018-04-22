@@ -21,7 +21,7 @@ class Main(object):
         for subreddit in self.monitored_subs:
             top_link_subs = self.praw_interface.get_top_link_submissions(subreddit)
             for submission in top_link_subs:
-                if submission.get("username", None) != self.configured_obj_factory.get_main_reddit_username(): 
+                if submission.get("username", None) != self.configured_obj_factory.get_main_reddit_username():
                     self.reddit_store.save_submission(submission, date=datetime.now())
 
     def get_subreddit_posts(self, subreddit):
@@ -30,11 +30,14 @@ class Main(object):
             subreddit
         ))
 
+    def get_all_posts(self):
+        return list(self.reddit_store.get_submissions_before_date(
+            datetime.combine(date.today() - timedelta(days=2), datetime.min.time())
+        ))
+
     def make_post(self):
         print("Making post if hot posts exist.")
-        possible_posts = []
-        for subreddit in self.monitored_subs:
-            possible_posts.extend(self.get_subreddit_posts(subreddit))
+        possible_posts = self.get_all_posts()
 
         posting_predicate = lambda post: post['subreddit'] not in self.banned_subs and post.get("username", None) != self.configured_obj_factory.get_main_reddit_username()
         possible_posts = [post for post in possible_posts if posting_predicate(post)]

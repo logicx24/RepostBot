@@ -38,7 +38,7 @@ class RedditStore(object):
 
 	def get_subreddit_submissions_before_date(self, date, subreddit):
 		return self.get_collection().find(
-			filter={self.date_property: {"$lte": date}, "subreddit": subreddit}
+			filter={self.date_property: {"$lte": date}, "subreddit": re.compile(subreddit, re.IGNORECASE)}
 		)
 
 	def mark_posted(self, submission_dict):
