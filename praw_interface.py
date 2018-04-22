@@ -23,7 +23,7 @@ class PrawInterface(object):
         found_posts = []
 
         for submission in self.get_post_metadata_with_filter(subreddit_name, lambda submission: not submission.is_self and not submission.stickied):
-            found_posts.append({
+            submission_dict = {
                 "link": submission.url,
                 "subreddit": submission.subreddit.display_name,
                 "title": submission.title,
@@ -31,7 +31,12 @@ class PrawInterface(object):
                 "created_at": datetime.datetime.utcfromtimestamp(submission.created),
                 "unique_key": submission.permalink,
                 "id": submission.id
-            })
+            }
+
+            if submission.author:
+                submission_dict["username"] = submission.author.name
+
+            found_posts.append(submission_dict)
 
         return found_posts
 

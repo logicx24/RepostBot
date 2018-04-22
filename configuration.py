@@ -12,8 +12,20 @@ class ConfiguredObjectsFactory(object):
         self.authFilename = "auth_params.yaml"
         self.configFilename = "config.yaml"
 
-    def get_authed_reddit_instance(self):
+        self.authFile = None
+        self.configFile = None
 
+    def get_config_params(self):
+        if not self.configFile:
+            self.configFile = yaml.safe_load(open(self.configFilename))
+        return self.configFile
+
+    def get_auth_params(self):
+        if not self.authFile:
+            self.authFile = yaml.safe_load(open(self.authFilename))
+        return self.authFile
+
+    def get_authed_reddit_instance(self):
         authDict = self.get_auth_params()['reddit_auth_secrets']
         return praw.Reddit(
             client_id=authDict['client_id'],
@@ -23,13 +35,8 @@ class ConfiguredObjectsFactory(object):
             password=authDict['password']
         )
 
-    def get_config_params(self):
-        with open(self.configFilename) as configFile:
-            return yaml.safe_load(configFile)
-
-    def get_auth_params(self):
-        with open(self.authFilename) as authFile:
-            return yaml.safe_load(authFile)
+    def get_main_reddit_username(self):
+        return self.get_auth_params()['reddit_auth_secrets']['username']
 
     def get_submission_storage_instance(self):
         dbDict = self.get_config_params()['db_options']
@@ -135,10 +142,15 @@ class ConfiguredObjectsFactory(object):
             "cringepics",
             "instant_regret",
             "whatcouldgowrong",
+            "memes",
+            "gatekeeping",
+            "misleadingthumbnails",
             "wellthatsucks",
             "fakehistoryporn",
             "interestingasfuck",
-            "nevertellmetheodds"
+            "nevertellmetheodds",
+            "all",
+            "popular"
         ]
 
     def get_banned_subreddits(self):
