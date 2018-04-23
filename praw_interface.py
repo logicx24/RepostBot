@@ -65,12 +65,15 @@ class PrawInterface(object):
 
     def make_submission(self, submission_object, subreddit):
         subreddit = self.get_subreddit(subreddit)
-        subreddit.submit(
+        return subreddit.submit(
             title=submission_object['title'],
             url=submission_object['link'],
             resubmit=True,
             send_replies=True
         )
 
+    def get_submission(self, submission_id):
+        return praw.models.Submission(reddit=self.authed_reddit_object, id=submission_id)
 
-
+    def upvote_submission(self, praw_submission_object):
+        praw_submission_object.upvote()

@@ -38,6 +38,20 @@ class ConfiguredObjectsFactory(object):
     def get_main_reddit_username(self):
         return self.get_auth_params()['reddit_auth_secrets']['username']
 
+    def get_authed_reddit_bot_instances(self):
+        instances = []
+        authDicts = self.get_auth_params()['reddit_bot_accounts']
+        for authDict in authDicts:
+            instance = praw.Reddit(
+                client_id=authDict['client_id'],
+                client_secret=authDict['client_secret'],
+                user_agent="TOTALLY REAL REDDIT USER - EXECUTING HUMAN.EXE",
+                username=authDict['username'],
+                password=authDict['password']
+            )
+            instances.append(instance)
+        return instances
+
     def get_submission_storage_instance(self):
         dbDict = self.get_config_params()['db_options']
         dbAuthDict = self.get_auth_params()['mongodb_host_auth']
@@ -59,6 +73,13 @@ class ConfiguredObjectsFactory(object):
             posts_to_cache,
             self.get_qualifying_score_for_posting()
         )
+
+    def get_bot_praw_interfaces(self):
+        posts_to_cache = self.get_config_params()['submission_options']['num_posts_to_cache']
+        return [PrawInterface(authed_reddit_instance, posts_to_cache, self.get_qualifying_score_for_posting()) 
+                for authed_reddit_instance
+                in self.get_authed_reddit_bot_instances()
+        ]
 
     def get_qualifying_score_for_posting(self):
         return self.get_config_params()['submission_options']['qualifying_score_for_posting']

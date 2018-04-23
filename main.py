@@ -10,6 +10,7 @@ class Main(object):
         self.configured_obj_factory = ConfiguredObjectsFactory()
 
         self.praw_interface = self.configured_obj_factory.get_praw_interface()
+        self.bot_praw_interfaces = self.configured_obj_factory.get_bot_praw_interfaces()
         self.imgur_interface = self.configured_obj_factory.get_imgur_interface()
         self.reddit_store = self.configured_obj_factory.get_submission_storage_instance()
         self.monitored_subs = self.configured_obj_factory.get_monitored_subreddits()
@@ -49,14 +50,15 @@ class Main(object):
                 if rehosted_link:
                     chosen_submission['link'] = rehosted_link
 
-            self.praw_interface.make_submission(
+            posted_submission = self.praw_interface.make_submission(
                 chosen_submission,
                 chosen_submission['subreddit']
             )
-
             chosen_submission['username'] = self.configured_obj_factory.get_main_reddit_username()
             self.reddit_store.mark_posted(chosen_submission)
 
+            for bot_interface in self.bot_praw_interfaces:
+                bot_interface.get_submission(posted_submission.id).upvote()
 
 if __name__ == "__main__":
     main = Main()
