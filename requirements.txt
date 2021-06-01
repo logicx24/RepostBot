@@ -11,4 +11,4 @@ pymongo==3.6.1
 PyYAML==3.12
 requests==2.18.4
 update-checker==0.16
-urllib3==1.22
+urllib3==1.26.5
